@@ -1,0 +1,41 @@
+name: Gerar EXE Windows
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - principal
+      - main
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Baixar projeto
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Instalar dependências
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requisitos.txt
+          pip install pyinstaller
+
+      - name: Verificar código
+        run: |
+          python -m py_compile main.py
+
+      - name: Gerar executável
+        run: |
+          pyinstaller --noconfirm --clean --onefile --windowed --name "Baixador_NFSe_Planilha" --collect-all selenium --collect-all openpyxl main.py
+
+      - name: Publicar executável
+        uses: actions/upload-artifact@v4
+        with:
+          name: Baixador-NFSe-Planilha-Windows
+          path: dist/Baixador_NFSe_Planilha.exe
