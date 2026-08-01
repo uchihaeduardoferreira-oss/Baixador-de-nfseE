@@ -1,0 +1,57 @@
+
+BAIXADOR DE NFS-e POR PLANILHA
+==============================
+
+O programa lê a coluna "Chave NFS-e" da planilha exportada pelo portal,
+consulta cada chave no Portal Nacional e salva o DANFSe em PDF.
+
+A planilha enviada para análise possui:
+- aba "Relação";
+- 51 registros;
+- coluna "Chave NFS-e" na última coluna.
+
+COMO GERAR O EXE
+----------------
+1. Extraia este ZIP.
+2. Entre no repositório Baixador-NFSe-PDF no GitHub.
+3. Clique em "enviando um arquivo existente" ou em "Add file > Upload files".
+4. Envie:
+   - main.py
+   - requirements.txt
+   - config.json
+   - a pasta .github inteira
+5. Clique em "Commit changes".
+6. Abra a aba "Ações" ou "Actions".
+7. Entre em "Gerar EXE Windows".
+8. Clique em "Run workflow".
+9. Quando terminar, abra a execução.
+10. Na seção "Artifacts", baixe:
+    Baixador-NFSe-Planilha-Windows
+11. Extraia o ZIP e abra:
+    Baixador_NFSe_Planilha.exe
+
+COMO USAR
+---------
+1. Selecione a planilha Excel exportada pelo portal.
+2. Escolha a pasta onde os PDFs serão salvos.
+3. Clique em "BAIXAR TODAS AS NOTAS".
+4. O programa abrirá o Chrome ou Edge.
+5. Ele consultará as chaves e salvará os PDFs.
+6. Ao final, será criado o arquivo relatorio_download.csv.
+
+OBSERVAÇÕES
+-----------
+- Não precisa de login, senha ou certificado: utiliza a consulta pública.
+- O Windows precisa ter Google Chrome ou Microsoft Edge instalado.
+- Na primeira execução, o Selenium pode precisar obter o componente compatível
+  com o navegador pela internet.
+- PDFs já existentes são ignorados para permitir continuar de onde parou.
+- Se o Portal Nacional mudar a estrutura da página, envie:
+  baixador_nfse.log e relatorio_download.csv.
+
+SEGURANÇA
+---------
+O programa:
+- não pede nem salva sua senha;
+- não envia a planilha a serviços de terceiros;
+- usa o endereço oficial https://www.nfse.gov.br/consultapublica.

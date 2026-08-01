@@ -1,0 +1,13 @@
+{
+  "consulta_url": "https://www.nfse.gov.br/consultapublica",
+  "cabecalhos_chave": [
+    "Chave NFS-e",
+    "Chave NFSe",
+    "Chave de Acesso",
+    "Chave de Acesso da NFS-e",
+    "Chave"
+  ],
+  "tempo_entre_notas_segundos": 1.0,
+  "tempo_maximo_pagina_segundos": 25,
+  "max_tentativas_por_nota": 2
+}
