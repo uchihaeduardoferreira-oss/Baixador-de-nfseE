@@ -1,0 +1,71 @@
+name: Gerar EXE Windows
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - principal
+      - main
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Baixar projeto
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Instalar dependências
+        shell: pwsh
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install selenium==4.35.0 openpyxl==3.1.5 pyinstaller==6.15.0
+
+      - name: Conferir bibliotecas
+        shell: pwsh
+        run: |
+          python -c "import openpyxl, selenium; print('openpyxl:', openpyxl.__version__); print('selenium:', selenium.__version__)"
+
+      - name: Verificar código
+        shell: pwsh
+        run: |
+          python -m py_compile main.py
+
+      - name: Gerar executável
+        shell: pwsh
+        run: |
+          python -m PyInstaller `
+            --noconfirm `
+            --clean `
+            --onefile `
+            --windowed `
+            --name "Baixador_NFSe_Planilha" `
+            --collect-all openpyxl `
+            --collect-submodules openpyxl `
+            --hidden-import openpyxl `
+            --hidden-import openpyxl.cell `
+            --hidden-import openpyxl.styles `
+            --hidden-import openpyxl.worksheet `
+            --collect-all selenium `
+            --collect-submodules selenium `
+            main.py
+
+      - name: Testar conteúdo do executável
+        shell: pwsh
+        run: |
+          if (!(Test-Path "dist/Baixador_NFSe_Planilha.exe")) {
+            throw "O executável não foi criado."
+          }
+          Get-Item "dist/Baixador_NFSe_Planilha.exe"
+
+      - name: Publicar executável
+        uses: actions/upload-artifact@v4
+        with:
+          name: Baixador-NFSe-Planilha-Windows-v2
+          path: dist/Baixador_NFSe_Planilha.exe
+          if-no-files-found: error
